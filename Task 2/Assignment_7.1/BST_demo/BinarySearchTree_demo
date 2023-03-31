@@ -1,0 +1,78 @@
+package main
+
+import "fmt"
+
+type Node struct {
+	Value int
+	Left  *Node
+	Right *Node
+}
+
+type BinarySearchTree struct {
+	Root *Node
+}
+
+func (tree *BinarySearchTree) Insert(value int) {
+	node := &Node{Value: value}
+
+	if tree.Root == nil {
+		tree.Root = node
+		return
+	}
+
+	curr := tree.Root
+
+	for {
+		if value < curr.Value {
+			if curr.Left == nil {
+				curr.Left = node
+				return
+			}
+			curr = curr.Left
+		} else {
+			if curr.Right == nil {
+				curr.Right = node
+				return
+			}
+			curr = curr.Right
+		}
+	}
+}
+
+func (tree *BinarySearchTree) Search(value int) *Node {
+	curr := tree.Root
+
+	for curr != nil {
+		if value == curr.Value {
+			return curr
+		} else if value < curr.Value {
+			curr = curr.Left
+		} else {
+			curr = curr.Right
+		}
+	}
+
+	return nil
+}
+
+func main() {
+	tree := BinarySearchTree{}
+
+	tree.Insert(8)
+	tree.Insert(3)
+	tree.Insert(10)
+	tree.Insert(1)
+	tree.Insert(6)
+	tree.Insert(14)
+	tree.Insert(4)
+	tree.Insert(7)
+	tree.Insert(13)
+
+	node := tree.Search(6)
+
+	if node != nil {
+		fmt.Println("Found node with value", node.Value)
+	} else {
+		fmt.Println("Node not found")
+	}
+}
